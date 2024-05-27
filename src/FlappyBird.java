@@ -91,7 +91,6 @@ public class FlappyBird extends JFrame implements ActionListener, KeyListener {
             }
         }
 
-        // Refresh screen
         repaint();
     }
 
