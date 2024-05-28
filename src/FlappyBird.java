@@ -20,6 +20,7 @@ public class FlappyBird extends JFrame implements ActionListener, KeyListener {
     private boolean gameOver = false;
 
     private BufferedImage birdImage;
+    private double rotationAngle = 0;
 
     private final Image[] offScrIma = new Image[3];
     private int currBuffer = 0;
@@ -56,7 +57,12 @@ public class FlappyBird extends JFrame implements ActionListener, KeyListener {
         offScrGra.fillRect(pipeX, 0, pipeWidth, pipeHeight);
         offScrGra.fillRect(pipeX, pipeHeight + gap, pipeWidth, getHeight() - pipeHeight - gap);
 
-        offScrGra.drawImage(birdImage, 100, birdY, null);
+        Graphics2D g2d = (Graphics2D) offScrGra;
+        g2d.translate(100 + birdImage.getWidth() / 2, birdY + birdImage.getHeight() / 2);
+        g2d.rotate(Math.toRadians(rotationAngle));
+        g2d.translate(-birdImage.getWidth() / 2, -birdImage.getHeight() / 2);
+        g2d.drawImage(birdImage, 0, 0, null);
+        g2d.setTransform(new AffineTransform());
 
         offScrGra.setColor(Color.BLACK);
         offScrGra.setFont(new Font("Arial", Font.PLAIN, 30));
@@ -98,6 +104,7 @@ public class FlappyBird extends JFrame implements ActionListener, KeyListener {
         if (e.getKeyCode() == KeyEvent.VK_SPACE) {
             if (!gameOver) {
                 birdVel = -20;
+                rotationAngle += 360;
             } else {
                 restart();
             }
@@ -114,6 +121,7 @@ public class FlappyBird extends JFrame implements ActionListener, KeyListener {
         pipeX = 800;
         score = 0;
         gameOver = false;
+        rotationAngle = 0;
         repaint();
     }
 
